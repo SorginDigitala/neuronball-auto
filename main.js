@@ -38,14 +38,14 @@ function checkBuildings(){
 
 
 
-function async updateData(){
+async function updateData(){
 	const r=await fetch("https://www.neuronball.com/es/aj/team/",{});
 	const x=await r.json()
 	team=x
 	// si hay notificaciones, actuar
 }
 
-function async getNetifications(){ 
+async function getNetifications(){ 
 	const r=await fetch("https://www.neuronball.com/es/aj/team/gamenotifications/",{});
 	const x=await r.json()
 	unread=x.findAll(e=>!e.read)
