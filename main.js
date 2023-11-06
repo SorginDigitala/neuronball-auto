@@ -4,31 +4,35 @@ var team={}
 
 function checkBuildings(){
 	const frame=createFrame("https://www.neuronball.com/es/headquarters/");
-	const buildings=frame.contentWindow.buildings;
-	
-	const building=buildings.find(e=>e.progress);
-	if(building){
-		const buildingEnd=building.progress.end_time-Math.floor(Date.now()/1000);
-	}else{
-		const x=buildings.find(e=>e.price<=team.credits);
-		if(x){
-			//mejorar edificio
+	frame.onload=e=>{
+		console.log("onload",e)
+		const buildings=frame.contentWindow.buildings;
+		
+		const building=buildings.find(e=>e.progress);
+		if(building){
+			const buildingEnd=building.progress.end_time-Math.floor(Date.now()/1000);
+		}else{
+			const x=buildings.find(e=>e.price<=team.credits);
+			if(x){
+				//mejorar edificio
+			}
 		}
+		
+		// fusion charges
+		if(frame.contentWindow.document.querySelector("btn.btn-charges"))
+			frame.contentWindow.get_charges()
+		
+		/*
+		const ca=frame.contentWindow.ca
+		const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(ca/40));
+		//	con  frame.contentWindow.get_charges() haces post a las cargas
+		*/
+		
+		
+		// cuando hacer siguiente revisión:
+		//	buildingEnd
+		//	plantFusion
 	}
-	
-	// fusion charges
-	if(frame.contentWindow.document.querySelector("btn.btn-charges"))
-		frame.contentWindow.get_charges()
-	
-	
-	const ca=frame.contentWindow.ca
-	const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(ca/40));
-	//	con  frame.contentWindow.get_charges() haces post a las cargas
-	
-	
-	// cuando hacer siguiente revisión:
-	 //	buildingEnd
-	 //	plantFusion
 }
 checkBuildings()
 
