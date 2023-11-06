@@ -20,6 +20,7 @@ function checkBuildings(){
 		if(x){
 			//mejorar edificio
 		}
+	}
 	
 	const ca=frame.contentWindow.ca
 	const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(ca/40));
