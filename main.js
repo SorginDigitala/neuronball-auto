@@ -2,12 +2,6 @@ var team={}
 
 
 
-
-function main(){
-	alert("aeou")
-}
-
-
 function checkBuildings(){
 	const frame=createFrame("https://www.neuronball.com/es/headquarters/");
 	const buildings=frame.contentWindow.buildings;
@@ -31,7 +25,7 @@ function checkBuildings(){
 	 //	buildingEnd
 	 //	plantFusion
 }
-
+checkBuildings()
 
 
 
