@@ -16,6 +16,11 @@ function checkBuildings(){
 		}
 	}
 	
+	// fusion charges
+	if(frame.contentWindow.document.querySelector("btn.btn-charges"))
+		frame.contentWindow.get_charges()
+	
+	
 	const ca=frame.contentWindow.ca
 	const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(ca/40));
 	//	con  frame.contentWindow.get_charges() haces post a las cargas
