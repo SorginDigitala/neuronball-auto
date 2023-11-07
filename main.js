@@ -86,7 +86,9 @@ async function getNetifications(){
 		cuack()
 	//x.type=="matchplanned"
 }
-setInterval(updateData,15000);
+
+//updateData()
+//setInterval(updateData,15000);
 
 
 
