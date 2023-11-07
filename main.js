@@ -1,3 +1,9 @@
+
+
+gping=null;//cancelamos las notificaciones.
+// [{"id":112085,"x":0.9,"y":0.7142857142857143},{"id":1381787,"x":0,"y":1},{"id":1380815,"x":1,"y":0.5},{"id":1382468,"x":0,"y":0},{"id":1380958,"x":0.9,"y":0.285714285714}]
+
+
 var team={credits:0}
 const buildingOrder=["bleachers","research-center","playfield","factory","power-plant","Maintenance Center","locker-room"]
 const neuronOrder=[0] // 0=standar, 1=flex...
