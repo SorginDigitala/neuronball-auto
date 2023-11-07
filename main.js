@@ -1,12 +1,110 @@
-
-
 gping=null;//cancelamos las notificaciones.
+const path= document.querySelector("script[src]:last-of-type")?.src.split("/").slice(0,-1).join("/")+"/";
+
 // [{"id":112085,"x":0.9,"y":0.7142857142857143},{"id":1381787,"x":0,"y":1},{"id":1380815,"x":1,"y":0.5},{"id":1382468,"x":0,"y":0},{"id":1380958,"x":0.9,"y":0.285714285714}]
 
+var html=`
+<style>
+#container{
+	display:flex;
+	flex-direction:column;
+	gap:10px;
+	height:100%;
+	width:100%;
+	max-width:1200px;
+	min-height:100vh;
+	background:#fff;
+	margin:auto;
+}
 
-var team={credits:0}
-const buildingOrder=["bleachers","research-center","playfield","factory","power-plant","Maintenance Center","locker-room"]
-const neuronOrder=[0] // 0=standar, 1=flex...
+#top_panel{
+	display:flex;
+	width:100%;
+	text-align:center;
+	height:30px;
+	line-height:30px;
+	font-size:25px;
+	font-weight: bold;
+	background:#000;
+	color: white;
+}
+
+.locked #top_panel{background:red}
+
+#top_panel>div{
+	width: 100%;
+}
+
+.details{
+	width:100%;
+}
+.details>div{
+	min-height:300px;
+	width:100%;
+}
+
+
+</style>
+
+<div id="container">
+	<div id="top_panel">
+		<div>elo: <span id="elo"></span></div>
+		<div>credits: <span id="credits"></span></div>
+		<div>locked: <span id="locked"></span></div>
+	</div>
+
+	<div id="match"></div>
+
+	<details class="details">
+		<summary>Config</summary>
+		<div id="config">
+		
+		
+		<a href="https://neuronball.freeforums.net/thread/140/hq-prices-construction-times" target=_blank>Construction info</a>
+		</div>
+	</details>
+
+
+	<details class="details" open>
+		<summary>Team</summary>
+		<div id="team"></div>
+	</details>
+
+
+	<details class="details">
+		<summary>Headquarters</summary>
+		<div id="headquarters"></div>
+	</details>
+
+
+	<details class="details">
+		<summary>Log</summary>
+		<div id="log"></div>
+	</details>
+</div>
+`;
+
+
+var team={};
+const buildingOrder=["bleachers","research-center","playfield","factory","power-plant","Maintenance Center","locker-room"];
+const neuronOrder=[0]; // 0=standar, 1=flex...
+
+
+
+async function Start(){
+	if(!location.hostname.endsWith("neuronball.com")){
+		location="//www.neuronball.com"
+		return
+	}
+	// get html
+	document.body.innerHTML=html;
+	await updateData();
+	setInterval(updateData,15000);
+	checkBuildings();
+}
+Start();
+
+
 
 function checkBuildings(){
 	const frame=createFrame("https://www.neuronball.com/es/headquarters/");
@@ -63,7 +161,6 @@ function checkBuildings(){
 		setTimeout(checkBuildings,Math.min(5*3600,buildingEnd)*1000)
 	}
 }
-checkBuildings()
 
 
 
@@ -75,10 +172,16 @@ async function updateData(){
 	const r=await fetch("https://www.neuronball.com/es/aj/team/",{});
 	const x=await r.json()
 	team=x
-	// si hay notificaciones, actuar
+	elo.innerText		=team.elo
+	credits.innerText	=team.credits
+	locked.innerText	=team.locked
+	container.classList.toggle("locked",team.locked)
+	if(team.notifications){
+		// si hay notificaciones, getNotifications()
+	}
 }
 
-async function getNetifications(){ 
+async function getNotifications(){ 
 	const r=await fetch("https://www.neuronball.com/es/aj/team/gamenotifications/",{});
 	const x=await r.json()
 	unread=x.findAll(e=>!e.read)
@@ -86,9 +189,6 @@ async function getNetifications(){
 		cuack()
 	//x.type=="matchplanned"
 }
-
-//updateData()
-//setInterval(updateData,15000);
 
 
 
