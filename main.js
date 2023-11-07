@@ -1,37 +1,60 @@
-var team={}
-
-
+var team={credits:0}
+const buildingOrder=["bleachers","research-center","playfield","factory","power-plant","Maintenance Center","locker-room"]
+const neuronOrder=[0] // 0=standar, 1=flex...
 
 function checkBuildings(){
 	const frame=createFrame("https://www.neuronball.com/es/headquarters/");
 	frame.onload=e=>{
-		console.log("onload",e)
-		const buildings=frame.contentWindow.buildings;
-		
+		const f=frame.contentWindow;
+		buildings=f.buildings;
+		let buildingEnd=0;
+
+		// fusion charges
+		//const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(f.ca/40));
+		if(f.document.querySelector(".btn.btn-charges"))
+			f.get_charges()
+
+		//	buildings
 		const building=buildings.find(e=>e.progress);
 		if(building){
-			const buildingEnd=building.progress.end_time-Math.floor(Date.now()/1000);
+			buildingEnd=building.progress.end_time-Math.floor(Date.now()/1000);
 		}else{
-			const x=buildings.find(e=>e.price<=team.credits);
-			if(x){
-				//mejorar edificio
-			}
+			buildingOrder.find(e=>{
+				const x=buildings.find(i=>e==i.slug)
+				if(x & x.price<=team.credits){
+				f.document.querySelector("[data-url=\"/es/aj/build/building/"+x.slug+"/\"]").click()
+				// buildingEnd=x.time;
+					const days=x.time/86400;
+					for(;days-->0;)
+						setTimeout(()=>{
+							f.document.querySelector(".speedup-building").click()
+						},days*2000);
+				 return true;
+				}
+				return false;
+			})
+		}
+
+		//	neurons
+		const neuronlist=f.neuronlist;
+		const neuron=f.document.querySelector("#neuroninfo button.buildneuron-btn");
+		if(neuron){
+			neuronOrder.find(e=>{
+				const x=neuronlist.find(i=>e==i.id)
+				if(x.price<=team.credits){
+					neuron_selector.value=e;
+					neuron.click();
+					for(;e-->0;)
+						setTimeout(()=>{
+							f.document.querySelector(".speedup-neuron").click()
+						},e*2000);
+				 return true;
+				}
+				return false;
+			})
 		}
 		
-		// fusion charges
-		if(frame.contentWindow.document.querySelector("btn.btn-charges"))
-			frame.contentWindow.get_charges()
-		
-		/*
-		const ca=frame.contentWindow.ca
-		const plantFusion=(86400/buildings.find(e=>e.slug="power-plant").level)*(1-(ca/40));
-		//	con  frame.contentWindow.get_charges() haces post a las cargas
-		*/
-		
-		
-		// cuando hacer siguiente revisión:
-		//	buildingEnd
-		//	plantFusion
+		setTimeout(checkBuildings,Math.min(5*3600,buildingEnd)*1000)
 	}
 }
 checkBuildings()
