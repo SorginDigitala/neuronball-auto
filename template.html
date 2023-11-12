@@ -1,0 +1,91 @@
+<style>
+#container{
+	display:flex;
+	flex-direction:column;
+	gap:10px;
+	height:100%;
+	width:100%;
+	max-width:1200px;
+	min-height:100vh;
+	background:#fff;
+	margin:auto;
+}
+
+#top_panel{
+	display:flex;
+	width:100%;
+	text-align:center;
+	height:40px;
+	line-height:40px;
+	font-size:20px;
+	font-weight: bold;
+	background:#000;
+	color: white;
+}
+
+.locked #top_panel{background:red}
+
+#top_panel>div{
+	width: 100%;
+}
+
+.details{
+	width:100%;
+}
+.details>div{
+	min-height:300px;
+	width:100%;
+}
+
+
+</style>
+
+<div id="container">
+	<div id="top_panel">
+		<div>elo: <span id="elo"></span></div>
+		<div>credits: <span id="credits"></span></div>
+		<div id="building">
+			<div>Edificio gordo</div>
+			<div style="width:90%;background:blue;height:20px">14:17:44</div>
+		</div>
+		<div id="neuron">
+			<div>Flex</div>
+			<div style="width:90%;background:blue;height:20px">14:17:44</div>
+		</div>
+	</div>
+
+	<div id="match"></div>
+
+	<details class="details">
+		<summary>Config</summary>
+		<div id="config">
+		
+		
+		<a href="https://neuronball.freeforums.net/thread/140/hq-prices-construction-times" target=_blank>Construction info</a>
+		</div>
+	</details>
+
+
+	<details class="details" open>
+		<summary>Team</summary>
+		<div id="team"></div>
+	</details>
+
+
+	<details class="details">
+		<summary>Headquarters</summary>
+		<div id="headquarters">
+			<label><input type=checkbox data-autocollect> Auto-collect charges.</label>
+			<div>
+				<div id construction_name></div>
+				<div id=construction_time></div>
+			</div>
+		</div>
+	</details>
+
+
+	<details class="details">
+		<summary>Log</summary>
+		<div id="log"></div>
+	</details>
+</div>
